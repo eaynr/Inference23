@@ -14,7 +14,7 @@ model="model_regression_peritonitis.onnx"
 pathing = "imgs/"
 path=pathing + sys.argv[1]
 
-#read image https://files.pythonhosted.org/packages/64/db/e5b45bdbf4b730802c5431713770f04543382cd252a546af170970756b05/onnxruntime_gpu-1.11.0-cp37-cp37m-win_amd64.whl
+#read image https://files.pythonhosted.org/packages/36/bb/3ea29800474c582b4619cc134aa4d8ee27627b6adce834a1091830dbf2f4/onnxruntime_gpu-1.9.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 #img = np.dot(img[...,:3], [0.2989, 0.5870, 0.1140]) #GREYSCALE
 
