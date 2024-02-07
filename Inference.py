@@ -14,7 +14,7 @@ model="model_regression_peritonitis.onnx"
 pathing = "imgs/"
 path=pathing + sys.argv[1]
 
-#read image
+#read image https://nvidia.box.com/shared/static/amhb62mzes4flhbfavoa73m5z933pv75.whl
 img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 #img = np.dot(img[...,:3], [0.2989, 0.5870, 0.1140]) #GREYSCALE
 
