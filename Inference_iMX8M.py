@@ -1,7 +1,6 @@
 import argparse
 import time
 
-import tflite_runtime.interpreter as tflite
 import platform
 
 import sys
@@ -9,20 +8,21 @@ import time
 import numpy as np
 import cv2
 
+from pycoral.utils.edgetpu import make_interpreter
+
 EDGETPU_SHARED_LIB = {
   'Linux': 'libedgetpu.so.1',
   'Darwin': 'libedgetpu.1.dylib',
   'Windows': 'edgetpu.dll'
 }[platform.system()]
 
-def make_interpreter(model_file):
-  model_file, *device = model_file.split('@')
-  return tflite.Interpreter(
-      model_path=model_file,
-      experimental_delegates=[
-          tflite.load_delegate(EDGETPU_SHARED_LIB,
-                               {'device': device[0]} if device else {})
-      ])
+#def make_interpreter(model_file):
+#  model_file, *device = model_file.split('@')
+#  return tflite.Interpreter(
+#      model_path=model_file,
+#      experimental_delegates=[
+#          tflite.load_delegate('libedgetpu.so.1')
+#      ])
 
 def input_details(interpreter, key):
   """Returns input details by specified key."""
