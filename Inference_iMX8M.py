@@ -81,6 +81,9 @@ def main():
       '-m', '--model', required=True, help='File path of .tflite file.')
   parser.add_argument(
       '-i', '--input', required=True, help='Image to be classified.')
+  parser.add_argument(
+      '-c', '--count', type=int, default=5,
+      help='Number of times to run inference')
   args = parser.parse_args()
 
   interpreter = make_interpreter(args.model)
@@ -122,15 +125,14 @@ def main():
   print('----INFERENCE TIME----')
   print('Note: The first inference on Edge TPU is slow because it includes',
         'loading the model into Edge TPU memory.')
-  
-  start = time.perf_counter()
-  interpreter.invoke()
-  inference_time = time.perf_counter() - start
-  result = get_output(interpreter)
-  print('%.1fms' % (inference_time * 1000))
-
   print('-------RESULTS--------')
-  print(result)
+  for _ in range(args.count):
+    start = time.perf_counter()
+    interpreter.invoke()
+    inference_time = time.perf_counter() - start
+    result = get_output(interpreter)
+    print(result)
+    print('%.1fms' % (inference_time * 1000))
 
 if __name__ == '__main__':
   main()
