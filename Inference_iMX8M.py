@@ -80,8 +80,6 @@ def main():
   parser.add_argument(
       '-m', '--model', required=True, help='File path of .tflite file.')
   parser.add_argument(
-      '-i', '--input', required=True, help='Image to be classified.')
-  parser.add_argument(
       '-c', '--count', type=int, default=5,
       help='Number of times to run inference')
   args = parser.parse_args()
@@ -89,51 +87,43 @@ def main():
   interpreter = make_interpreter(args.model)
   interpreter.allocate_tensors()
 
-  model="model_regression_peritonitis.onnx"
   pathing = "imgs/"
-  path=pathing + args.input
+  imgs = ["img_40.png", "img_41.png", "img_42.png", "img_43.png", "img_44.png", "img_45.png", "img_46.png", "img_47.png", "img_48.png", "img_49.png"]
   
-  #read image
-  img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-  
-  #Adjust dynamic range
-  min_brt = 0
-  max_brt = 65000
-  img = np.where(img < min_brt, min_brt, img)
-  img = np.where(img > max_brt, max_brt, img)
-  
-  #NORMALITZATION
-  img = img.astype(np.float32)
-  img -= min_brt
-  img /= (max_brt - min_brt)
-  img *= 255
-  
-  #ROI
-  subImg = img[800:1000, 100:660]
-  
-  #SOBEL
-  subImg_filt = cv2.Sobel(subImg, cv2.CV_64F, 1, 0, None, 3, 1, 0)
-  
-  # Normalize the image
-  subImg_filt_norm = cv2.normalize(subImg_filt, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_32F)
-  
-  #Ajust to model input parameters
-  subImg_filt_norm.resize(1,1,200,560)
+  for img in imgs:
+    #img
+    path=pathing + img
+    #read image
+    img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    #Adjust dynamic range
+    min_brt = 0
+    max_brt = 65000
+    img = np.where(img < min_brt, min_brt, img)
+    img = np.where(img > max_brt, max_brt, img)
+    #NORMALITZATION
+    img = img.astype(np.float32)
+    img -= min_brt
+    img /= (max_brt - min_brt)
+    img *= 255
+    #ROI
+    subImg = img[800:1000, 100:660]
+    #SOBEL
+    subImg_filt = cv2.Sobel(subImg, cv2.CV_64F, 1, 0, None, 3, 1, 0)
+    # Normalize the image
+    subImg_filt_norm = cv2.normalize(subImg_filt, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    #Ajust to model input parameters
+    subImg_filt_norm.resize(1,1,200,560)
 
-  set_input(interpreter, subImg_filt_norm)
-  result = []
-  print('----INFERENCE TIME----')
-  print('Note: The first inference on Edge TPU is slow because it includes',
-        'loading the model into Edge TPU memory.')
-  for _ in range(args.count):
+    set_input(interpreter, subImg_filt_norm)
+  
     start = time.perf_counter()
     interpreter.invoke()
     inference_time = time.perf_counter() - start
-    result.append( get_output(interpreter) )
+    result = get_output(interpreter)
     print(inference_time)
-
-  print('-------RESULTS--------')
-  print(result)
+  
+    print('-------RESULT--------')
+    print(result)
 
 if __name__ == '__main__':
   main()
