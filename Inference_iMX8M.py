@@ -121,7 +121,7 @@ def main():
   subImg_filt_norm.resize(1,1,200,560)
 
   set_input(interpreter, subImg_filt_norm)
-
+  result = []
   print('----INFERENCE TIME----')
   print('Note: The first inference on Edge TPU is slow because it includes',
         'loading the model into Edge TPU memory.')
@@ -129,7 +129,7 @@ def main():
     start = time.perf_counter()
     interpreter.invoke()
     inference_time = time.perf_counter() - start
-    result = get_output(interpreter)
+    result.append( get_output(interpreter) )
     print(inference_time)
 
   print('-------RESULTS--------')
