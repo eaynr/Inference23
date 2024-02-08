@@ -116,11 +116,12 @@ def main():
 
     set_input(interpreter, subImg_filt_norm)
   
-    start = time.perf_counter()
-    interpreter.invoke()
-    inference_time = time.perf_counter() - start
-    result = get_output(interpreter)
-    print(inference_time)
+    for _ in range(args.count):
+      start = time.perf_counter()
+      interpreter.invoke()
+      inference_time = time.perf_counter() - start
+      result = get_output(interpreter)
+      print(inference_time)
   
     print('-------RESULT--------')
     print(result)
