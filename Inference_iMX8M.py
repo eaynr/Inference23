@@ -62,9 +62,9 @@ def main():
   pathing = "imgs/"
   imgs = ["img_40.png", "img_41.png", "img_42.png", "img_43.png", "img_44.png", "img_45.png", "img_46.png", "img_47.png", "img_48.png", "img_49.png"]
   
-  for img in imgs:
+  for imgName in imgs:
     #img
-    path=pathing + img
+    path=pathing + imgName
     #read image
     img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
     #Adjust dynamic range
@@ -93,7 +93,7 @@ def main():
     inference_time = time.perf_counter() - start
     result = get_output(interpreter)
 
-    print(img)
+    print("--Result--" + imgName)
     print(result)
     print("--Inference time--")
     print(inference_time)
