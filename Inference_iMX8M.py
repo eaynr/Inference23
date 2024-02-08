@@ -67,7 +67,7 @@ def set_input(interpreter, data):
 
 def output_tensor(interpreter, dequantize=True):
   output_details = interpreter.get_output_details()[0]
-  output_data = interpreter.tensor(output_details['index'])()
+  output_data = interpreter.get_tensor(output_details['index'])()
   return output_data
 
 def get_output(interpreter):
