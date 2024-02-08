@@ -95,7 +95,8 @@ def main():
 
     print(img)
     print(result)
-    print("Inference time: " + inference_time)
+    print("--Inference time--")
+    print(inference_time)
 
 if __name__ == '__main__':
   main()
