@@ -79,6 +79,8 @@ def main():
       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
   parser.add_argument(
       '-m', '--model', required=True, help='File path of .tflite file.')
+  parser.add_argument(
+      '-i', '--input', required=True, help='Image to be classified.')
   args = parser.parse_args()
 
   interpreter = make_interpreter(args.model)
@@ -86,7 +88,7 @@ def main():
 
   model="model_regression_peritonitis.onnx"
   pathing = "imgs/"
-  path=pathing + sys.argv[1]
+  path=pathing + args.input
   
   #read image
   img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
