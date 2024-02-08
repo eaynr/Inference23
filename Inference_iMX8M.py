@@ -93,7 +93,8 @@ def main():
     inference_time = time.perf_counter() - start
     result = get_output(interpreter)
 
-    print(img + ": " + result)
+    print(img)
+    print(result)
     print("Inference time: " + inference_time)
 
 if __name__ == '__main__':
