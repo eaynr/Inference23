@@ -18,10 +18,11 @@ EDGETPU_SHARED_LIB = {
 def make_interpreter(model_file):
   model_file, *device = model_file.split('@')
   return tflite.Interpreter(
-      model_path=model_file,
-      experimental_delegates=[
-          tflite.load_delegate('libedgetpu.so.1')
-      ])
+      model_path=model_file#,
+      #experimental_delegates=[
+          #tflite.load_delegate('libedgetpu.so.1')
+      #]
+      )
 
 def input_details(interpreter, key):
   """Returns input details by specified key."""
@@ -72,7 +73,7 @@ def main():
     img = np.where(img < min_brt, min_brt, img)
     img = np.where(img > max_brt, max_brt, img)
     #NORMALITZATION
-    img = img.astype(np.float32)
+    img = img.astype(np.int8)
     img -= min_brt
     img /= (max_brt - min_brt)
     img *= 255
@@ -81,7 +82,7 @@ def main():
     #SOBEL
     subImg_filt = cv2.Sobel(subImg, cv2.CV_64F, 1, 0, None, 3, 1, 0)
     # Normalize the image
-    subImg_filt_norm = cv2.normalize(subImg_filt, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_32F)
+    subImg_filt_norm = cv2.normalize(subImg_filt, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_)
     #Ajust to model input parameters
     subImg_filt_norm.resize(1,1,200,560)
 
