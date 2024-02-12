@@ -75,14 +75,14 @@ def main():
     #NORMALITZATION
     img = img.astype(np.int8)
     img -= min_brt
-    img /= (max_brt - min_brt)
+    img = img / (max_brt - min_brt)
     img *= 255
     #ROI
     subImg = img[800:1000, 100:660]
     #SOBEL
     subImg_filt = cv2.Sobel(subImg, cv2.CV_64F, 1, 0, None, 3, 1, 0)
     # Normalize the image
-    subImg_filt_norm = cv2.normalize(subImg_filt, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_)
+    subImg_filt_norm = cv2.normalize(subImg_filt, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_32F)
     #Ajust to model input parameters
     subImg_filt_norm.resize(1,1,200,560)
 

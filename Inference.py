@@ -27,7 +27,7 @@ img = np.where(img > max_brt, max_brt, img)
 #NORMALITZATION
 img = img.astype(np.float32)
 img -= min_brt
-img /= (max_brt - min_brt)
+img = img / (max_brt - min_brt)
 img *= 255
 #img = cv2.normalize(img, None, 0, 1.0,cv2.NORM_MINMAX, dtype=cv2.CV_32F)
 
